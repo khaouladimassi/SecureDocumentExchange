@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.securedocumentexchange.controller.UserController"
+      spacing="25"
+      prefWidth="1000"
+      prefHeight="650">
+
+    <padding>
+        <Insets top="25"
+                right="25"
+                bottom="25"
+                left="25"/>
+    </padding>
+
+
+    <!-- ===================================================== -->
+    <!-- COLONNE GAUCHE : CONNEXION -->
+    <!-- ===================================================== -->
+
+    <VBox spacing="12"
+          prefWidth="450">
+
+        <Label text="👤 Espace Utilisateur"
+               style="-fx-font-size:26px; -fx-font-weight:bold;"/>
+
+
+        <!-- ================================================= -->
+        <!-- UTILISATEUR -->
+        <!-- ================================================= -->
+
+        <Label text="Nom utilisateur"
+               style="-fx-font-size:16px;"/>
+
+        <TextField fx:id="usernameField"
+                   promptText="Exemple : utilisateur1"
+                   prefWidth="300"/>
+
+
+        <Separator/>
+
+
+        <!-- ================================================= -->
+        <!-- SERVEURS -->
+        <!-- ================================================= -->
+
+        <Label text="🌐 Serveurs disponibles"
+               style="-fx-font-size:18px; -fx-font-weight:bold;"/>
+
+        <HBox spacing="10">
+
+            <Button text="🔍 Rechercher"
+                    onAction="#discoverServers"
+                    prefWidth="180"
+                    prefHeight="40"/>
+
+            <ProgressIndicator fx:id="searchProgress"
+                               visible="false"
+                               prefWidth="30"
+                               prefHeight="30"/>
+
+        </HBox>
+
+
+        <ListView fx:id="serverList"
+                  prefHeight="150"/>
+
+
+        <!-- ================================================= -->
+        <!-- CONNEXION -->
+        <!-- ================================================= -->
+
+        <Button fx:id="connectButton"
+                text="🔐 Demander la connexion"
+                onAction="#connectToServer"
+                prefWidth="250"
+                prefHeight="40"/>
+
+
+        <Label fx:id="connectionStatus"
+               text="⚪ Aucun serveur connecté"
+               wrapText="true"
+               style="-fx-font-size:15px;"/>
+
+
+        <Separator/>
+
+
+        <!-- ================================================= -->
+        <!-- INFORMATIONS -->
+        <!-- ================================================= -->
+
+        <Label text="🔐 Sécurité"
+               style="-fx-font-size:18px; -fx-font-weight:bold;"/>
+
+        <Label text="Les communications sont protégées par TLS. Les documents sensibles utilisent AES-256-GCM."
+               wrapText="true"
+               style="-fx-font-size:12px; -fx-text-fill:gray;"/>
+
+    </VBox>
+
+
+    <!-- ===================================================== -->
+    <!-- COLONNE DROITE -->
+    <!-- ===================================================== -->
+
+    <VBox spacing="12"
+          prefWidth="450">
+
+
+        <!-- ================================================= -->
+        <!-- TITRE -->
+        <!-- ================================================= -->
+
+        <Label text="📄 Documents &amp; Communication"
+               style="-fx-font-size:22px; -fx-font-weight:bold;"/>
+
+        <Separator/>
+
+
+        <!-- ================================================= -->
+        <!-- DOCUMENTS -->
+        <!-- ================================================= -->
+
+        <Label text="📚 Documents disponibles"
+               style="-fx-font-size:18px; -fx-font-weight:bold;"/>
+
+
+        <ListView fx:id="documentList"
+                  prefHeight="145"/>
+
+
+        <!-- ================================================= -->
+        <!-- TELECHARGEMENT -->
+        <!-- ================================================= -->
+
+        <HBox spacing="10">
+
+            <Button text="⬇ Télécharger"
+                    onAction="#downloadFile"
+                    prefWidth="150"
+                    prefHeight="38"/>
+
+            <Button text="📂 Ouvrir"
+                    onAction="#openFile"
+                    prefWidth="120"
+                    prefHeight="38"/>
+
+        </HBox>
+
+
+        <Separator/>
+
+
+        <!-- ================================================= -->
+        <!-- ENVOI -->
+        <!-- ================================================= -->
+
+        <Label text="📤 Partager un document"
+               style="-fx-font-size:18px; -fx-font-weight:bold;"/>
+
+
+        <HBox spacing="10">
+
+            <Button text="📂 Sélectionner"
+                    onAction="#selectFile"
+                    prefWidth="150"
+                    prefHeight="40"/>
+
+            <Button text="⬆ Envoyer"
+                    onAction="#sendFile"
+                    prefWidth="120"
+                    prefHeight="40"/>
+
+        </HBox>
+
+
+        <Label fx:id="selectedFileLabel"
+               text="Aucun fichier sélectionné"
+               wrapText="true"
+               style="-fx-font-size:12px;"/>
+
+
+        <CheckBox fx:id="sensitiveCheckBox"
+                  text="🔒 Document sensible"
+                  style="-fx-font-size:15px;"/>
+
+
+        <Label text="Si activé, le document est chiffré avec AES-256-GCM avant son transfert. Le transport reste protégé par TLS."
+               wrapText="true"
+               style="-fx-font-size:12px; -fx-text-fill:gray;"/>
+
+
+        <Separator/>
+
+
+        <!-- ================================================= -->
+        <!-- CHAT -->
+        <!-- ================================================= -->
+
+        <Label text="💬 Chat avec l'administrateur"
+               style="-fx-font-size:18px; -fx-font-weight:bold;"/>
+
+
+        <TextArea fx:id="chatArea"
+                  editable="false"
+                  wrapText="true"
+                  prefHeight="100"
+                  promptText="Les messages apparaîtront ici..."/>
+
+
+        <HBox spacing="8">
+
+            <TextField fx:id="chatMessageField"
+                       promptText="Écrire un message..."
+                       onAction="#sendChatMessage"/>
+
+
+            <Button text="➤ Envoyer"
+                    onAction="#sendChatMessage"
+                    prefWidth="110"
+                    prefHeight="35"/>
+
+        </HBox>
+
+
+        <Separator/>
+
+
+        <!-- ================================================= -->
+        <!-- FOOTER -->
+        <!-- ================================================= -->
+
+        <Label text="🔐 Secure Document Exchange"
+               style="-fx-font-size:12px; -fx-text-fill:gray;"/>
+
+    </VBox>
+
+</HBox>

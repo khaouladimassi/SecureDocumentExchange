@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.securedocumentexchange.controller.AdminController"
+      spacing="15"
+      prefWidth="1000"
+      prefHeight="750">
+
+    <padding>
+        <Insets top="25"
+                right="25"
+                bottom="25"
+                left="25"/>
+    </padding>
+
+
+    <!-- ===================================================== -->
+    <!-- PARTIE PRINCIPALE -->
+    <!-- ===================================================== -->
+
+    <HBox spacing="25"
+          VBox.vgrow="ALWAYS">
+
+
+        <!-- ================================================= -->
+        <!-- COLONNE GAUCHE : SERVEUR + UTILISATEURS -->
+        <!-- ================================================= -->
+
+        <VBox spacing="12"
+              prefWidth="450"
+              HBox.hgrow="ALWAYS">
+
+            <Label text="👨‍💼 Administration"
+                   style="-fx-font-size:26px; -fx-font-weight:bold;"/>
+
+
+            <!-- SERVEUR -->
+
+            <Label fx:id="serverStatusLabel"
+                   text="🔴 Serveur arrêté"
+                   style="-fx-font-size:16px;"/>
+
+            <Label fx:id="serverInfoLabel"
+                   text="Le serveur n'est pas démarré."
+                   wrapText="true"
+                   style="-fx-font-size:13px;"/>
+
+            <Button fx:id="startServerButton"
+                    text="▶ Démarrer le serveur"
+                    onAction="#startServer"
+                    prefWidth="230"
+                    prefHeight="40"/>
+
+            <Separator/>
+
+
+            <!-- DEMANDES DE CONNEXION -->
+
+            <Label text="👥 Demandes de connexion"
+                   style="-fx-font-size:18px; -fx-font-weight:bold;"/>
+
+            <ListView fx:id="connectionRequestsList"
+                      prefHeight="130"
+                      VBox.vgrow="NEVER"/>
+
+            <HBox spacing="10">
+
+                <Button text="✓ Accepter"
+                        onAction="#acceptUser"
+                        prefWidth="130"
+                        prefHeight="38"/>
+
+                <Button text="✕ Refuser"
+                        onAction="#refuseUser"
+                        prefWidth="130"
+                        prefHeight="38"/>
+
+            </HBox>
+
+
+            <!-- UTILISATEURS CONNECTÉS -->
+
+            <Label text="🟢 Utilisateurs connectés"
+                   style="-fx-font-size:18px; -fx-font-weight:bold;"/>
+
+            <Label text="Sélectionnez un utilisateur pour communiquer ou lui envoyer un document."
+                   wrapText="true"
+                   style="-fx-font-size:12px; -fx-text-fill:gray;"/>
+
+            <ListView fx:id="connectedUsersList"
+                      prefHeight="150"
+                      VBox.vgrow="ALWAYS"/>
+
+        </VBox>
+
+
+        <!-- ================================================= -->
+        <!-- COLONNE DROITE : DOCUMENTS -->
+        <!-- ================================================= -->
+
+        <VBox spacing="12"
+              prefWidth="400"
+              HBox.hgrow="ALWAYS">
+
+            <Label text="📄 Partage de documents"
+                   style="-fx-font-size:22px; -fx-font-weight:bold;"/>
+
+            <Separator/>
+
+
+            <!-- DESTINATAIRE -->
+
+            <Label text="👤 Destinataire"
+                   style="-fx-font-size:18px; -fx-font-weight:bold;"/>
+
+            <Label text="L'utilisateur sélectionné dans la liste de gauche recevra le document."
+                   wrapText="true"
+                   style="-fx-font-size:12px; -fx-text-fill:gray;"/>
+
+
+            <!-- FICHIER -->
+
+            <Label text="📁 Document"
+                   style="-fx-font-size:18px; -fx-font-weight:bold;"/>
+
+            <Button text="📂 Sélectionner un fichier"
+                    onAction="#selectFile"
+                    prefWidth="230"
+                    prefHeight="40"/>
+
+            <Label fx:id="selectedFileLabel"
+                   text="Aucun fichier sélectionné"
+                   wrapText="true"
+                   maxWidth="350"
+                   style="-fx-font-size:13px;"/>
+
+
+            <!-- SENSIBILITÉ -->
+
+            <CheckBox fx:id="sensitiveCheckBox"
+                      text="🔒 Document sensible"
+                      style="-fx-font-size:15px;"/>
+
+            <Label text="Un document sensible sera traité avec le chiffrement AES-256-GCM."
+                   wrapText="true"
+                   style="-fx-font-size:12px; -fx-text-fill:gray;"/>
+
+
+            <!-- ENVOI -->
+
+            <Button text="📤 Envoyer le document"
+                    onAction="#sendFile"
+                    prefWidth="250"
+                    prefHeight="45"
+                    style="-fx-font-size:14px; -fx-font-weight:bold;"/>
+
+            <Separator/>
+
+
+            <!-- DOCUMENTS PARTAGÉS -->
+
+            <Label text="📚 Documents partagés"
+                   style="-fx-font-size:18px; -fx-font-weight:bold;"/>
+
+            <ListView fx:id="documentList"
+                      prefHeight="170"
+                      VBox.vgrow="ALWAYS"/>
+
+        </VBox>
+
+    </HBox>
+
+
+    <!-- ===================================================== -->
+    <!-- CHAT SÉCURISÉ -->
+    <!-- ===================================================== -->
+
+    <VBox spacing="8"
+          prefHeight="230"
+          VBox.vgrow="NEVER">
+
+        <Separator/>
+
+        <Label text="💬 Chat sécurisé"
+               style="-fx-font-size:20px; -fx-font-weight:bold;"/>
+
+        <Label fx:id="chatUserLabel"
+               text="Aucun utilisateur sélectionné"
+               style="-fx-font-size:13px; -fx-text-fill:gray;"/>
+
+
+        <!-- ================================================= -->
+        <!-- HISTORIQUE CHAT -->
+        <!-- ================================================= -->
+
+        <TextArea fx:id="chatArea"
+                  editable="false"
+                  wrapText="true"
+                  prefHeight="120"
+                  VBox.vgrow="ALWAYS"
+                  promptText="Les messages apparaîtront ici..."/>
+
+
+        <!-- ================================================= -->
+        <!-- SAISIE MESSAGE -->
+        <!-- ================================================= -->
+
+        <HBox spacing="10">
+
+            <TextField fx:id="chatMessageField"
+                       promptText="Écrire un message..."
+                       HBox.hgrow="ALWAYS"/>
+
+            <Button text="➤ Envoyer"
+                    onAction="#sendChatMessage"
+                    prefWidth="110"
+                    prefHeight="35"/>
+
+        </HBox>
+
+    </VBox>
+
+
+    <!-- ===================================================== -->
+    <!-- FOOTER -->
+    <!-- ===================================================== -->
+
+    <Label text="🔐 Secure Document Exchange"
+           style="-fx-font-size:12px; -fx-text-fill:gray;"/>
+
+</VBox>
