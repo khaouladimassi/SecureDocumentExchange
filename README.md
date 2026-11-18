@@ -46,7 +46,7 @@ L'administrateur supervise les connexions en temps réel, valide les accès et g
 
 |          Vue d'ensemble du Serveur Actif           |      Utilisateur Connecté & Chat en Direct   |
 |:--------------------------------------------------:|:--------------------------------------------:|
-| ![Admin Dashboard](screenshots/admin.png)[cite: 6] | ![Chat Sécurisé](screenshots/admin-chat.png) |
+| ![Admin Dashboard](screenshots/admin.png)| ![Chat Sécurisé](screenshots/admin-chat.png) |
 
 ---
 
